@@ -1,13 +1,26 @@
 import { createCards } from './data.js';
+/* global L:readonly */
 
-const container = document.querySelector('#map-canvas');
-const cardListFragment = document.createDocumentFragment();
-const cardElementTemplate = document.querySelector('#card')
-  .content.querySelector('.popup');
+
+const mapCanvas = document.querySelector('#map-canvas');
+
+const map = L.map(mapCanvas)
+  .setView({
+    lat: 51.509865,
+    lng: -0.118092,
+  }, 12);
+
+L.tileLayer(
+  'https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(map);
 
 const cards = createCards();
 
-cards.forEach(({autor, offer}) => {
+const cardElementTemplate = document.querySelector('#card')
+  .content.querySelector('.popup');
+
+const createCustomPopup = ({autor, offer}) => {
   const cardElement = cardElementTemplate.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = offer.title;
   cardElement.querySelector('.popup__text--address').textContent = offer.address;
@@ -46,9 +59,52 @@ cards.forEach(({autor, offer}) => {
 
   cardElement.querySelector('.popup__avatar').src = autor.avatar;
 
-  cardListFragment.appendChild(cardElement);
+  return cardElement;
+};
+
+const mainPinIcon = L.icon({
+  iconUrl: '../img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
 });
 
-container.appendChild(cardListFragment);
+cards.forEach((card) => {
+  const {lat, lng} = card.location;
 
+  const pinIcon = L.icon({
+    iconUrl: '../img/pin.svg',
+    iconSize: [52, 52],
+    iconAnchor: [26, 52],
+  });
 
+  const marker = L.marker(
+    {
+      lat,
+      lng,
+    },
+    {
+      icon: pinIcon,
+    },
+  );
+
+  marker
+    .addTo(map)
+    .bindPopup(createCustomPopup(card));
+});
+
+const mainPinMarker = L.marker(
+  {
+    lat: 51.509865,
+    lng: -0.118092,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
+
+mainPinMarker.addTo(map);
+
+mainPinMarker.on('moveend', (evt) => {
+  console.log(evt.target.getLatLng());
+})

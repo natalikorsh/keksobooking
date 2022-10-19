@@ -17,9 +17,7 @@ const getRandomInteger = (min, max) => {
 const getRandomFloat = (min, max, n) => {
   if (max === min || max < min) {
     return ('Указан неправильный диапазон');
-  } else if (max < 0 || min <0) {
-    return ('Введите положительное число');
-  }
+  } 
   let num = (Math.random() * (max - min)) + min;
   return +num.toFixed(n);
 }
