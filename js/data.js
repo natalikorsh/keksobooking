@@ -37,12 +37,13 @@ const createCard = () => {
     },
 
     location: {
-      x: getRandomFloat(35.65000, 35.70000, 5).toString(),
-      y: getRandomFloat(139.70000, 139.80000, 5).toString(),
+      lat: getRandomFloat(51.48986, 51.53000, 5),
+      lng: getRandomFloat(-0.12809, 0, 5),
     },
   };
 };
 
-const CARDS_COUNT = 10;
+const CARDS_COUNT = 3;
 
 export const createCards = () => Array.from({length: CARDS_COUNT}, createCard);
+console.log(createCards())
