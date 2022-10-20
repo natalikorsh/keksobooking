@@ -58,3 +58,5 @@ const activeForm = () => {
   mapFilterElements.forEach((select) => select.classList.remove('disabled'));
   mapFilterFieldset.classList.remove('disabled');
 };
+
+

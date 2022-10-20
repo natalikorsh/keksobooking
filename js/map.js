@@ -89,7 +89,10 @@ cards.forEach((card) => {
 
   marker
     .addTo(map)
-    .bindPopup(createCustomPopup(card));
+    .bindPopup(createCustomPopup(card),
+      {
+        keepInView: true,
+      });
 });
 
 const mainPinMarker = L.marker(
