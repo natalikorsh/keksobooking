@@ -1,3 +1,7 @@
+
+import { sendData } from './api.js';
+import { showAlertError } from './user-modal.js';
+
 const form = document.querySelector('.ad-form');
 const typeOfProperty = form.querySelector('#type');
 const priceForNight = form.querySelector('#price');
@@ -6,6 +10,11 @@ const formHeader = form.querySelector('.ad-form__header');
 const mapFiltersForm = document.querySelector('.map__filters');
 const mapFilterElements = mapFiltersForm.querySelectorAll('select');
 const mapFilterFieldset = mapFiltersForm.querySelector('fieldset');
+const timeIn = form.querySelector('#timein');
+const timeOut = form.querySelector('#timeout');
+// const submitButton = form.querySelector('.ad-form__submit');
+// const resetButton = form.querySelector('.ad-form__reset');
+
 
 typeOfProperty.addEventListener('change', (evt) => {
   switch(evt.target.value) {
@@ -28,9 +37,6 @@ typeOfProperty.addEventListener('change', (evt) => {
   }
 });
 
-const timeIn = form.querySelector('#timein');
-const timeOut = form.querySelector('#timeout');
-
 timeIn.addEventListener('change', () => {
   const index = timeIn.selectedIndex;
   timeOut.selectedIndex = index;
@@ -40,6 +46,22 @@ timeOut.addEventListener('change', () => {
   const index = timeOut.selectedIndex;
   timeIn.selectedIndex = index;
 });
+
+export const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => {
+        onSuccess();
+        form.reset();
+      },
+      () => showAlertError(),
+      new FormData(evt.target),
+    );
+  });
+};
+
 
 const inactiveForm = () => {
   form.classList.add('ad-form--disabled');

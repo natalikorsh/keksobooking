@@ -64,6 +64,4 @@ formRoomsSelect.addEventListener('change', (evt) => {
       formGuestsSelect.value = maxCapacity;
     }
   })
-
-  formGuestsOptions.reportValidity();
 });
