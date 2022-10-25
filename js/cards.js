@@ -1,12 +1,7 @@
-import { createCards } from './data.js';
-
-const cardListFragment = document.createDocumentFragment();
 const cardElementTemplate = document.querySelector('#card')
   .content.querySelector('.popup');
 
-const cards = createCards();
-
-cards.forEach(({autor, offer}) => {
+export const createCustomPopup = ({author, offer}) => {
   const cardElement = cardElementTemplate.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = offer.title;
   cardElement.querySelector('.popup__text--address').textContent = offer.address;
@@ -43,10 +38,10 @@ cards.forEach(({autor, offer}) => {
     cardElement.querySelector('.popup__photos').insertAdjacentHTML('beforeend', imgTemplate);
   });
 
-  cardElement.querySelector('.popup__avatar').src = autor.avatar;
+  cardElement.querySelector('.popup__avatar').src = author.avatar;
 
-  cardListFragment.appendChild(cardElement);
-});
+  return cardElement;
+};
 
 
 
