@@ -11,13 +11,11 @@ import { showAlertSuccess } from './user-modal.js';
 import './user-modal.js';
 import { setFilterType } from './filter.js';
 
-const RENDERED_CARD_COUNT_MIN = 0;
-const RENDERED_CARD_COUNT_MAX = 10;
+
 
 getData((cards) => {
-  const renderedCards = cards.slice(RENDERED_CARD_COUNT_MIN, RENDERED_CARD_COUNT_MAX);
-  createSimilarCards(renderedCards);
-  setFilterType(renderedCards);
+  createSimilarCards(cards);
+  setFilterType(cards);
 });
 
 setUserFormSubmit(showAlertSuccess);
