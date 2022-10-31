@@ -5,6 +5,8 @@ import './filter.js';
 
 const mapCanvas = document.querySelector('#map-canvas');
 const markers = [];
+const RENDERED_CARD_COUNT_MIN = 0;
+const RENDERED_CARD_COUNT_MAX = 10;
 
 const map = L.map(mapCanvas)
   .setView({
@@ -50,6 +52,7 @@ const mainPinIcon = L.icon({
 
 export const createSimilarCards = (cards) => {
   cards
+    .slice(RENDERED_CARD_COUNT_MIN, RENDERED_CARD_COUNT_MAX)
     .forEach((card) => {
       const {lat, lng} = card.location;
 
